@@ -98,7 +98,7 @@ function Index() {
     <main>
       <section id="buy" className="mx-auto grid max-w-[1500px] gap-4 px-4 pt-4 lg:grid-cols-[190px_minmax(0,1fr)] lg:px-6">
         <aside className="hidden h-fit rounded-lg border border-border bg-card p-3 lg:block soft-shadow">
-          <div className="space-y-1">{[
+          <div className="space-y-1">{([
             [Home, "Buy Property", "buy"], [Home, "Residential", "projects"], [Building2, "Commercial", "projects"], [Landmark, "Plots & Land", "projects"], [Sparkles, "New Launches", "projects"], [Home, "Ready to Move", "projects"], [Home, "Luxury Homes", "projects"]
           ] as const).map(([Icon, label, id]) => <Button key={label} variant={category === label || (category === "All" && label === "Buy Property") ? "default" : "ghost"} className="h-10 w-full justify-start px-3 text-xs" onClick={() => goTo(id, label)}><Icon />{label}</Button>)}</div>
           <div className="my-3 border-t border-border" />
