@@ -109,9 +109,9 @@ function Index() {
         </aside>
         <div className="hero-image relative flex min-h-[560px] flex-col justify-between overflow-hidden rounded-lg p-5 sm:min-h-[500px] sm:p-8 lg:min-h-[485px] lg:p-9 xl:p-12">
           <img src={hero} alt="RK-inspired luxury residences beside a landscaped pool" width={1920} height={960} className="absolute inset-0 h-full w-full object-cover object-[63%_center]" />
-          <div className="relative z-10 max-w-[590px]">
+          <div className="relative z-10 max-w-[670px]">
             <p className="eyebrow mb-3 text-foreground">Find your perfect space</p>
-            <h1 className="display-title text-[47px] text-ink sm:text-[60px] lg:text-[66px] xl:text-[74px]">Homes. Investments.<br />A Better Tomorrow.</h1>
+            <h1 className="display-title text-[47px] text-ink sm:text-[60px] lg:text-[55px] xl:text-[64px]">Homes. Investments.<br />A Better Tomorrow.</h1>
             <p className="mt-5 max-w-[390px] text-sm font-medium leading-relaxed sm:text-base">Explore premium residential, commercial and mixed-use properties by RK Constructions and Developers.</p>
           </div>
           <div className="absolute right-5 top-6 hidden w-[204px] rounded-md bg-ink/95 p-5 text-ink-foreground xl:block"><p className="display-title text-[27px] leading-[.98]">Premium<br />Living Spaces</p><div className="my-4 h-[2px] w-8 bg-primary" /><div className="space-y-3 text-[11px]">{["Modern Design", "Prime Locations", "World-Class Amenities", "Trusted by Thousands"].map(t => <p className="flex items-center gap-2" key={t}><Check className="size-3.5 text-primary" />{t}</p>)}</div></div>
