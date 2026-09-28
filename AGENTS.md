@@ -11,3 +11,6 @@
 
 - Keep the RK Constructions marketing experience on the home route with local illustrative listings and generated photography; no project data service was provided.
 - Use the supplied logo through a Lovable Assets pointer and the supplied RK icon as a compact local favicon; this keeps the brand consistent without storing the full uploaded image in source.
+- Keep development content in the shared local property catalogue and label unit, amenity, specification, pricing, and imagery details as illustrative because no live inventory source exists.
+- Store public callback requests through a validated server function in the private Cloud table; never expose lead rows to browsers.
+- Run property matching through the server-side Lovable AI Gateway and restrict results to slugs from the local catalogue.
