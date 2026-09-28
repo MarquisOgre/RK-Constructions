@@ -6,5 +6,5 @@
 - [x] Verify desktop and mobile rendering and key controls.
 - [x] Add a detail page for every showcased development.
 - [x] Add private callback requests powered by Lovable Cloud.
-- [ ] Add and verify AI-powered property matching.
-- [ ] Verify development pages and callback submission end to end.
+- [x] Add and verify AI-powered property matching.
+- [x] Verify development pages and callback submission end to end.
