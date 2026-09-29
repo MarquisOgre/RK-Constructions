@@ -8,5 +8,10 @@ export const recommendProperties = createServerFn({ method: "POST" })
   .inputValidator((data) => preferences.parse(data))
   .handler(async ({ data }) => {
     const { generateRecommendations } = await import("./recommendations.server");
-    return generateRecommendations(data, properties.map(({ slug, name, location, price, priceLakhs, detail, category, units, amenities }) => ({ slug, name, location, price, priceLakhs, detail, category, units, amenities })));
+    const result = await generateRecommendations(data, properties.map(({ slug, name, location, price, priceLakhs, detail, category, units, amenities }) => ({ slug, name, location, price, priceLakhs, detail, category, units, amenities })));
+    try {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      await supabaseAdmin.from("recommendation_requests").insert({ budget: data.budget, location: data.location, lifestyle: data.lifestyle, recommended_slugs: result.map((r) => r.slug) });
+    } catch (error) { console.error("Could not log recommendation", error); }
+    return result;
   });
