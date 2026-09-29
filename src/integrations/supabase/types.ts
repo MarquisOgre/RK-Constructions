@@ -14,6 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          content: string
+          created_at: string
+          excerpt: string
+          id: string
+          milestone: string | null
+          property_slug: string | null
+          published: boolean
+          published_at: string | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          milestone?: string | null
+          property_slug?: string | null
+          published?: boolean
+          published_at?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          milestone?: string | null
+          property_slug?: string | null
+          published?: boolean
+          published_at?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       property_callback_requests: {
         Row: {
           created_at: string
@@ -24,6 +96,7 @@ export type Database = {
           phone: string
           preferred_time: string
           property_slug: string
+          status: string
         }
         Insert: {
           created_at?: string
@@ -34,6 +107,7 @@ export type Database = {
           phone: string
           preferred_time: string
           property_slug: string
+          status?: string
         }
         Update: {
           created_at?: string
@@ -44,6 +118,70 @@ export type Database = {
           phone?: string
           preferred_time?: string
           property_slug?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      property_page_views: {
+        Row: {
+          created_at: string
+          id: string
+          property_slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          property_slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          property_slug?: string
+        }
+        Relationships: []
+      }
+      recommendation_requests: {
+        Row: {
+          budget: string
+          created_at: string
+          id: string
+          lifestyle: string
+          location: string
+          recommended_slugs: string[]
+        }
+        Insert: {
+          budget: string
+          created_at?: string
+          id?: string
+          lifestyle: string
+          location: string
+          recommended_slugs?: string[]
+        }
+        Update: {
+          budget?: string
+          created_at?: string
+          id?: string
+          lifestyle?: string
+          location?: string
+          recommended_slugs?: string[]
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -52,10 +190,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -182,6 +326,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
