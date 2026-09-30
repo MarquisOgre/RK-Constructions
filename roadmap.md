@@ -7,4 +7,8 @@
 - [x] Add a detail page for every showcased development.
 - [x] Add private callback requests powered by Lovable Cloud.
 - [x] Add and verify AI-powered property matching.
-- [x] Verify development pages and callback submission end to end.
+- [x] Verify development pages and callback submission end to end.- [x] Contact page with email/phone/office
+- [x] Blog for construction updates (owner-authored)
+- [x] Owner dashboard: inquiries, recommendations, page views
+- [x] Recommendation form → results page
+- [x] Save all inquiry submissions (callbacks + contact messages)

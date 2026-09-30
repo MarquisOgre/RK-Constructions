@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import { trackPropertyView } from "@/lib/views.functions";
 import { ArrowLeft, ArrowRight, Check, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/rk-constructions-logo.png.asset.json";
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/developments/$slug")({
 function Development() {
   const property = Route.useLoaderData();
   const [photo, setPhoto] = useState(0);
+  useEffect(() => { trackPropertyView({ data: { slug: property.slug } }).catch(() => {}); }, [property.slug]);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
