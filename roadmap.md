@@ -13,4 +13,5 @@
 - [x] Owner dashboard: inquiries, recommendations, page views
 - [x] Recommendation form → results page
 - [x] Save all inquiry submissions (callbacks + contact messages)
-- [ ] Verify real contact details and website-message inbox end to end
+- [x] Verify real contact details and form submission stored in the website-message inbox table
+- [ ] Verify the message in the signed-in owner dashboard — blocked until the owner creates an account and claims access
