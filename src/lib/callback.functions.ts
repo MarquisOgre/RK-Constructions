@@ -1,6 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { properties } from "./properties";
 
 const formSchema = z.object({
   slug: z.string(), name: z.string().trim().min(2).max(100),
@@ -14,7 +13,8 @@ const formSchema = z.object({
 export const requestCallback = createServerFn({ method: "POST" })
   .inputValidator((data) => formSchema.parse(data))
   .handler(async ({ data }) => {
-    if (!properties.some(property => property.slug === data.slug) || data.website) throw new Error("Could not submit your request.");
+    const { fetchPublishedRows } = await import("./properties.server");
+    if (!(await fetchPublishedRows()).some(property => property.slug === data.slug) || data.website) throw new Error("Could not submit your request.");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: recent, error: checkError } = await supabaseAdmin.from("property_callback_requests")
       .select("id").eq("phone", data.phone).gte("created_at", new Date(Date.now() - 5 * 60_000).toISOString()).limit(1);
