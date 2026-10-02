@@ -3,7 +3,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
 import { SiteShell } from "@/components/site-shell";
 import { listPublishedPosts } from "@/lib/blog.functions";
-import { properties } from "@/lib/properties";
+import { propertiesQuery } from "@/lib/properties.functions";
 
 const postsQuery = queryOptions({ queryKey: ["blog", "published"], queryFn: () => listPublishedPosts() });
 
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/blog/")({
     { property: "og:description", content: "Follow progress and milestones across RK developments." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
   ] }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(postsQuery),
+  loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(postsQuery), context.queryClient.ensureQueryData(propertiesQuery)]),
   errorComponent: () => <SiteShell><p>Updates could not load. Please refresh.</p></SiteShell>,
   notFoundComponent: () => <SiteShell><p>Not found.</p></SiteShell>,
   component: BlogIndex,
@@ -23,6 +23,7 @@ export const Route = createFileRoute("/blog/")({
 
 function BlogIndex() {
   const { data: posts } = useSuspenseQuery(postsQuery);
+  const { data: properties } = useSuspenseQuery(propertiesQuery);
   return <SiteShell>
     <p className="eyebrow mb-3 text-primary">Progress & milestones</p>
     <h1 className="display-title text-5xl text-ink sm:text-6xl">Construction updates</h1>

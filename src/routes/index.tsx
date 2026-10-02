@@ -66,7 +66,7 @@ function Index() {
       if (budget === "Above ₹1Cr" && price <= 100) return false;
     }
     return true;
-  }), [mode, category, location, type, budget, searched, favorites, showFavorites]);
+  }), [properties, mode, category, location, type, budget, searched, favorites, showFavorites]);
   const visible = [...filtered.slice(slide), ...filtered.slice(0, slide)];
   const monthlyRate = 0.085 / 12;
   const payments = years * 12;

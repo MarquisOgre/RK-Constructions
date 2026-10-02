@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { SiteShell } from "@/components/site-shell";
-import { properties } from "@/lib/properties";
+import { propertiesQuery } from "@/lib/properties.functions";
 import { recommendProperties } from "@/lib/recommendations.functions";
 
 const search = z.object({ budget: z.string().catch(""), location: z.string().catch(""), lifestyle: z.string().catch("") });
@@ -17,11 +17,13 @@ export const Route = createFileRoute("/results")({
     { property: "og:description", content: "Personalised development suggestions from RK Constructions." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
   ] }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(propertiesQuery),
   component: Results,
 });
 
 function Results() {
   const prefs = Route.useSearch();
+  const { data: properties } = useSuspenseQuery(propertiesQuery);
   const valid = prefs.budget.trim() && prefs.location.trim() && prefs.lifestyle.trim().length >= 3;
   const q = useQuery({
     queryKey: ["recommend", prefs], enabled: !!valid, staleTime: Infinity, retry: false,
@@ -31,7 +33,7 @@ function Results() {
     <p className="eyebrow mb-3 text-primary">Your matches</p>
     <h1 className="display-title text-5xl text-ink sm:text-6xl">Recommended for you</h1>
     {valid && <p className="mt-4 text-sm text-muted-foreground">Budget: <b>{prefs.budget}</b> · Location: <b>{prefs.location}</b> · Needs: {prefs.lifestyle}</p>}
-    <p className="mt-2 text-xs text-muted-foreground">Suggestions use illustrative listings, not live inventory. Confirm details with our team.</p>
+    <p className="mt-2 text-xs text-muted-foreground">Matched by AI against our current listings. Confirm pricing and availability with our team.</p>
     <div className="mt-10">
       {!valid ? <p className="text-sm">Tell us your budget, location and lifestyle first. <Link to="/" hash="recommend" className="font-bold text-primary">Start here</Link></p>
       : q.isPending ? <p className="flex items-center gap-2 text-sm" role="status"><Sparkles className="size-4 animate-pulse text-primary" /> Finding your best matches…</p>
