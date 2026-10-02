@@ -7,7 +7,8 @@ import hero from "@/assets/hero-residences.jpg";
 import interior from "@/assets/tour-interior.jpg";
 import lifestyle from "@/assets/lifestyle.jpg";
 import indiaMap from "@/assets/india-map.svg";
-import { properties } from "@/lib/properties";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { propertiesQuery } from "@/lib/properties.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -17,13 +18,16 @@ export const Route = createFileRoute("/")({
     { property: "og:description", content: "Discover residential and commercial spaces with RK Constructions and Developers." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
-  ] }), component: Index,
+  ] }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(propertiesQuery),
+  component: Index,
 });
 
 const locations = [{ name: "Hyderabad", count: 12, x: 37, y: 61 }, { name: "Bengaluru", count: 8, x: 34, y: 75 }, { name: "Chennai", count: 6, x: 42, y: 75 }, { name: "Pune", count: 5, x: 23, y: 58 }, { name: "Mumbai", count: 4, x: 20, y: 56 }, { name: "Delhi NCR", count: 4, x: 33, y: 26 }];
 const nav = [{ label: "Buy", href: "#buy" }, { label: "Projects", href: "#projects" }, { label: "New Launches", href: "#projects" }, { label: "Commercial", href: "#projects" }, { label: "About", href: "#about" }, { label: "Updates", href: "/blog" }, { label: "Contact", href: "/contact" }];
 
 function Index() {
+  const { data: properties } = useSuspenseQuery(propertiesQuery);
   const [mode, setMode] = useState("Buy");
   const [category, setCategory] = useState("All");
   const [location, setLocation] = useState("");
