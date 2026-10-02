@@ -15,6 +15,13 @@
       "when": 1790642809003,
       "tag": "0001_owner_dashboard_blog_views",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790942860772,
+      "tag": "0002_properties_replies_sample_posts",
+      "breakpoints": true
     }
   ]
 }

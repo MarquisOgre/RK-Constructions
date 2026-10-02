@@ -2,11 +2,12 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { SiteShell } from "@/components/site-shell";
 import { getPublishedPost } from "@/lib/blog.functions";
-import { properties } from "@/lib/properties";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { propertiesQuery } from "@/lib/properties.functions";
 
 export const Route = createFileRoute("/blog/$slug")({
-  loader: async ({ params }) => {
-    const post = await getPublishedPost({ data: { slug: params.slug } });
+  loader: async ({ params, context }) => {
+    const [post] = await Promise.all([getPublishedPost({ data: { slug: params.slug } }), context.queryClient.ensureQueryData(propertiesQuery)]);
     if (!post) throw notFound();
     return post;
   },
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/blog/$slug")({
 
 function Post() {
   const post = Route.useLoaderData();
+  const { data: properties } = useSuspenseQuery(propertiesQuery);
   const property = properties.find(p => p.slug === post.property_slug);
   return <SiteShell><article className="mx-auto max-w-[760px]">
     <Link to="/blog" className="flex items-center gap-2 text-xs font-bold hover:text-primary"><ArrowLeft className="size-4" /> All updates</Link>

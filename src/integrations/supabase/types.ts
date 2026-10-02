@@ -86,6 +86,96 @@ export type Database = {
         }
         Relationships: []
       }
+      inquiry_replies: {
+        Row: {
+          body: string
+          created_at: string
+          delivery: string
+          id: string
+          inquiry_id: string
+          kind: string
+          sent_to: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          delivery?: string
+          id?: string
+          inquiry_id: string
+          kind: string
+          sent_to: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          delivery?: string
+          id?: string
+          inquiry_id?: string
+          kind?: string
+          sent_to?: string
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          amenities: string[]
+          badge: string
+          category: string
+          created_at: string
+          detail: string
+          image_url: string | null
+          location: string
+          name: string
+          price: string
+          price_lakhs: number
+          published: boolean
+          slug: string
+          sort_order: number
+          specifications: string[]
+          status: string
+          units: string[]
+          updated_at: string
+        }
+        Insert: {
+          amenities?: string[]
+          badge?: string
+          category?: string
+          created_at?: string
+          detail?: string
+          image_url?: string | null
+          location: string
+          name: string
+          price: string
+          price_lakhs?: number
+          published?: boolean
+          slug: string
+          sort_order?: number
+          specifications?: string[]
+          status?: string
+          units?: string[]
+          updated_at?: string
+        }
+        Update: {
+          amenities?: string[]
+          badge?: string
+          category?: string
+          created_at?: string
+          detail?: string
+          image_url?: string | null
+          location?: string
+          name?: string
+          price?: string
+          price_lakhs?: number
+          published?: boolean
+          slug?: string
+          sort_order?: number
+          specifications?: string[]
+          status?: string
+          units?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       property_callback_requests: {
         Row: {
           created_at: string
