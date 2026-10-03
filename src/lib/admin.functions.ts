@@ -50,3 +50,29 @@ export const updateInquiryStatus = createServerFn({ method: "POST" })
     if (error) throw new Error("Could not update status.");
     return { ok: true };
   });
+
+export const listReplies = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase.from("inquiry_replies").select("*").order("created_at", { ascending: true }).limit(1000);
+    if (error) throw new Error("Could not load replies.");
+    return data ?? [];
+  });
+
+export const replyToInquiry = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => z.object({ kind: z.enum(["callback", "message"]), id: z.string().uuid(), body: z.string().trim().min(2).max(5000) }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { data: isAdmin } = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "admin" });
+    if (!isAdmin) throw new Error("Owner access required.");
+    const table = data.kind === "callback" ? "property_callback_requests" : "contact_messages";
+    const { data: row } = await context.supabase.from(table).select("email").eq("id", data.id).maybeSingle();
+    if (!row?.email) throw new Error("This buyer didn't leave an email address. Please call them instead.");
+    // Email delivery is switched on once the sender domain is set up; until then the reply is saved.
+    const delivery: "saved" | "sent" | "failed" = "saved";
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("inquiry_replies").insert({ kind: data.kind, inquiry_id: data.id, sent_to: row.email, body: data.body, delivery });
+    if (error) throw new Error("Could not save the reply.");
+    await context.supabase.from(table).update({ status: "contacted" }).eq("id", data.id);
+    return { delivery: delivery as "saved" | "sent" | "failed" };
+  });
