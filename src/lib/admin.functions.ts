@@ -69,7 +69,7 @@ export const replyToInquiry = createServerFn({ method: "POST" })
     const { data: row } = await context.supabase.from(table).select("email").eq("id", data.id).maybeSingle();
     if (!row?.email) throw new Error("This buyer didn't leave an email address. Please call them instead.");
     // Email delivery is switched on once the sender domain is set up; until then the reply is saved.
-    const delivery = "saved";
+    const delivery: "saved" | "sent" | "failed" = "saved";
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("inquiry_replies").insert({ kind: data.kind, inquiry_id: data.id, sent_to: row.email, body: data.body, delivery });
     if (error) throw new Error("Could not save the reply.");
