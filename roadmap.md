@@ -15,3 +15,7 @@
 - [x] Save all inquiry submissions (callbacks + contact messages)
 - [x] Verify real contact details and form submission stored in the website-message inbox table
 - [ ] Verify the message in the signed-in owner dashboard — blocked until the owner creates an account and claims access
+- [x] Sample progress articles (clearly marked) linked from each development page
+- [x] Developments managed from the dashboard; AI recommends from those listings
+- [x] Unified inbox with property, buyer details and reply box (replies saved)
+- [ ] Email replies to buyers automatically — blocked until the owner sets up their email domain
