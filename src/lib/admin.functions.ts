@@ -74,5 +74,5 @@ export const replyToInquiry = createServerFn({ method: "POST" })
     const { error } = await supabaseAdmin.from("inquiry_replies").insert({ kind: data.kind, inquiry_id: data.id, sent_to: row.email, body: data.body, delivery });
     if (error) throw new Error("Could not save the reply.");
     await context.supabase.from(table).update({ status: "contacted" }).eq("id", data.id);
-    return { delivery };
+    return { delivery: delivery as "saved" | "sent" | "failed" };
   });
